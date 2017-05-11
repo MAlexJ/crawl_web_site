@@ -26,10 +26,9 @@ public class Main {
       WebMd webMd = new WebMd();
       webMd.getNews();
 
-      // WEB SITE:
+      // WEB SITE: https://www.ncbi.nlm.nih.gov/
       Ncbi ncbi = new Ncbi();
       ncbi.getNews();
 
    }
-
 }

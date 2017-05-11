@@ -100,11 +100,16 @@ public class MedScape {
          for (Element element : col2) {
             Elements liNews = element.getElementsByTag("li");
             for (Element elemenLi : liNews) {
-               if (StringUtils.isNotBlank(elemenLi.getElementsByTag("img").attr("src")) && StringUtils.isNotBlank(elemenLi.getElementsByClass("title").text())) {
+
+               String image = elemenLi.getElementsByTag("img").attr("src");                     // IMAGE
+               String title = elemenLi.getElementsByClass("title").text();                      // TITLE
+               String text = elemenLi.getElementsByClass("teaser").text();                      // TEXT
+
+               if (StringUtils.isNotBlank(image) && StringUtils.isNotBlank(title) && StringUtils.isNotBlank(text)) {
                   // next news
-                  System.out.print("  IMAGE: " + elemenLi.getElementsByTag("img").attr("src"));
-                  System.out.print("  TITLE: " + elemenLi.getElementsByClass("title").text());
-                  System.out.println("  DESCRIPTION: " + elemenLi.getElementsByClass("teaser").text());
+                  System.out.print("  IMAGE: " + image);
+                  System.out.print("  TITLE: " + title);
+                  System.out.println("  DESCRIPTION: " + text);
                }
             }
          }

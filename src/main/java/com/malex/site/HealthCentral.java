@@ -70,18 +70,26 @@ public class HealthCentral {
          // latest-posts
          Elements lastPosts = doc.getElementsByClass("promo daily-dose--promo");
          for (Element element : lastPosts) {
-            if (StringUtils.isNotBlank(element.getElementsByTag("img").attr("src")) && StringUtils.isNotBlank(element.getElementsByClass("title").text())) {
+
+            String image = element.getElementsByTag("img").attr("src");                            // IMAGE
+
+            String title = element.getElementsByClass("title").text();                             // TITLE
+
+            String text = element.getElementsByClass("body").text();                               // TEXT
+
+
+            if (StringUtils.isNotBlank(image) && StringUtils.isNotBlank(title) && StringUtils.isNotBlank(text)) {
                // IMAGE
-               String imageLink = element.getElementsByTag("img").attr("src");
+               String imageLink = image;
                imageLink = "http:" + imageLink.substring(0, imageLink.indexOf("?"));
                System.out.print(" IMAGE: " + imageLink);
 
                // TITLE
-               String title = element.getElementsByClass("title").text().trim();
-               System.out.print("  TITLE: " + title);
+               String titleN = title.trim();
+               System.out.print("  TITLE: " + titleN);
 
                // TEXT
-               String description = element.getElementsByClass("body").text().trim();
+               String description = text.trim();
                System.out.println("  TEXT: " + description);
             }
          }
