@@ -1,26 +1,35 @@
 package com.malex;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
+import com.malex.site.HealthCentral;
+import com.malex.site.MedScape;
+import com.malex.site.Ncbi;
+import com.malex.site.WebMd;
 
 import java.io.IOException;
 
 /**
- * Created by User on 11.05.2017.
+ * @author malex
  */
 public class Main {
 
-   public final static String MED_SCAPE ="http://www.medscape.com/";
-
    public static void main(String[] args) throws IOException {
 
-      Document doc = Jsoup.connect(MED_SCAPE).get();
+      // WEB SITE: www.medscape.com
+      MedScape webSiteMedScape = new MedScape();
+      webSiteMedScape.getNews();
 
-      // div block = specialties
-      Element specialties = doc.getElementById("specialties");
+      // WEB SITE: www.healthcentral.com
+      HealthCentral healthCentral = new HealthCentral();
+      healthCentral.getNews();
 
-      System.out.println(specialties);
+      // WEB SITE: http://www.webmd.com
+      WebMd webMd = new WebMd();
+      webMd.getNews();
+
+      // WEB SITE:
+      Ncbi ncbi = new Ncbi();
+      ncbi.getNews();
+
    }
 
 }
