@@ -6,6 +6,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,6 +16,7 @@ import java.util.Map;
 public class MedScape {
 
    private final static String MED_SCAPE_URL = "http://www.medscape.com";
+   private final static String MED_SCAPE_REFERENCE_URL = "http://reference.medscape.com";
 
    public void init() {
 
@@ -115,6 +117,43 @@ public class MedScape {
          }
       } catch (Exception ex) {
          System.out.println(ex.getMessage());
+      }
+   }
+
+
+   /**
+    * get topics: DRUGS & DISEASES
+    */
+   public void getDrugsDiseases() {
+      try {
+         Document doc = Jsoup.connect(MED_SCAPE_REFERENCE_URL).get();
+
+         Element featured = doc.getElementById("featured");
+         Elements ul = featured.getElementsByTag("ul");
+
+         for (Element element : ul) {
+            for (Element li : element.getElementsByTag("li")) {
+
+               // IMAGE
+               String image = li.getElementsByTag("span").attr("data-src");
+
+               // Title
+               String title = li.getElementsByClass("title").text();
+
+               // TEXT
+               String text = li.getElementsByClass("teaser").text();
+
+               if (StringUtils.isNotBlank(image) && StringUtils.isNotBlank(title) && StringUtils.isNotBlank(text)) {
+                  System.out.print(" IMAGE : " + image);
+                  System.out.print("  TITLE : " + title);
+                  System.out.println(" TEXT : " + text);
+               }
+            }
+         }
+
+
+      } catch (IOException e) {
+         e.printStackTrace();
       }
    }
 }
