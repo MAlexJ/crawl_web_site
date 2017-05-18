@@ -9,8 +9,6 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
 
 /**
  * @author malex
@@ -37,7 +35,6 @@ public class HealthCentral {
    public final static String BODY_MIND_HIGH_SLEEP_DISORDERS = "/sleep-disorders";
    public final static String BODY_MIND_HIGH_SEXUAL_HEALTH = "/sexual-health";
    public final static String BODY_MIND_HIGH_DIABETES = "/diabetes";
-
 
 
    public void init() {
@@ -101,6 +98,9 @@ public class HealthCentral {
 
             String text = element.getElementsByClass("body").text();                               // TEXT
 
+            // TODO NEW
+            String link = HEALTH_CENTRAL + element.getElementsByClass("title").get(0).getElementsByTag("a").attr("href");
+
 
             if (StringUtils.isNotBlank(image) && StringUtils.isNotBlank(title) && StringUtils.isNotBlank(text)) {
                // IMAGE
@@ -114,7 +114,10 @@ public class HealthCentral {
 
                // TEXT
                String description = text.trim();
-               System.out.println("  TEXT: " + description);
+               System.out.print("  TEXT: " + description);
+
+               // LINK
+               System.out.println(" LINK " + link);
             }
          }
       } catch (Exception ex) {
@@ -123,65 +126,42 @@ public class HealthCentral {
    }
 
    /**
-    * FAMILY HEALTH: Menopause, Prostate
+    * get new by tag
     */
    public void getCatalog(String subLink) {
-      // pass to news: /dailydose
+
       try {
 
          Document doc = Jsoup.connect(HEALTH_CENTRAL + subLink).get();
 
-         Element editorSpicks = doc.getElementById("editorspicks");
-         Elements div = editorSpicks.getElementsByTag("div");
+         Element topic = doc.getElementById("editorspicks");
+         Elements div = topic.getElementsByClass("Editor-picks-teaser-container");
 
          // get all links of topics
-         Set<String> links = new TreeSet<>();
          for (Element element : div) {
-            String link_topic = element.getElementsByTag("a").attr("href");
-            if (StringUtils.isNotBlank(link_topic)) {
-               links.add(HEALTH_CENTRAL + link_topic);
-            }
-         }
 
-         if (!links.isEmpty()) {
-            for (String linkOfTopic : links) {
+            String title = element.getElementsByClass("Teaser-title").text();
+            String text = element.getElementsByClass("Editor-picks-content").text();
+            String link = element.getElementsByClass("Teaser-title").get(0).getElementsByTag("a").attr("href");
 
-               try {
-                  Document document = Jsoup.connect(linkOfTopic).get();
+            if (!link.isEmpty()) {
+               link = HEALTH_CENTRAL + link;
 
-                  // IMAGE
-                  Elements section = document.getElementsByClass("article--body");
-                  String imageElem = section.get(0).getElementsByTag("img").attr("src");
+               doc = Jsoup.connect(link).get();
+               Elements section = doc.getElementsByClass("article--body");
+               String image = section.get(0).getElementsByTag("img").attr("src");
 
-                  if (StringUtils.isNotBlank(imageElem)) {
+               if (image != null && !image.isEmpty() && title != null && text != null) {
 
-                     if (imageElem.startsWith("//")) {
-                        imageElem = "http:" + imageElem.substring(0, imageElem.indexOf('?'));
-                     } else {
-                        imageElem = imageElem.substring(0, imageElem.indexOf('?'));
-                     }
-
-                     // SELECTOR: article--title-block-secondary
-                     Elements titleElem = document.getElementsByClass("article--title-block-secondary");
-                     String title = titleElem.get(0).getElementsByTag("h2").text();
-                     if(StringUtils.isNotBlank(title)){
-
-                        String text = document.getElementsByClass("article--body").text();
-                        if(StringUtils.isNotBlank(text)){
-
-                           // IMAGE
-                           System.out.print(" IMAGE : " + imageElem);
-                           // TITLE
-                           System.out.print("  TITLE:  " + title);
-                           // TEXT
-                           System.out.println("  TEXT:  " + text);
-                        }
-
-                     }
+                  if (image.startsWith("//")) {
+                     image = "http:" + image.substring(0, image.indexOf('?'));
+                  } else {
+                     image = image.substring(0, image.indexOf('?'));
                   }
-
-               } catch (Exception ex) {
-                  // ignore
+                  System.out.print(" TITLE: " + title);
+                  System.out.print(" TEXT: " + text);
+                  System.out.print(" IMAGE: " + image);
+                  System.out.println(" LINK: " + link);
                }
             }
          }

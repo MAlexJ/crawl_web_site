@@ -106,12 +106,14 @@ public class MedScape {
                String image = elemenLi.getElementsByTag("img").attr("src");                     // IMAGE
                String title = elemenLi.getElementsByClass("title").text();                      // TITLE
                String text = elemenLi.getElementsByClass("teaser").text();                      // TEXT
+               String link = MED_SCAPE_URL + elemenLi.getElementsByClass("title").attr("href");                 // TODO NEW
 
                if (StringUtils.isNotBlank(image) && StringUtils.isNotBlank(title) && StringUtils.isNotBlank(text)) {
                   // next news
                   System.out.print("  IMAGE: " + image);
                   System.out.print("  TITLE: " + title);
-                  System.out.println("  DESCRIPTION: " + text);
+                  System.out.print("  DESCRIPTION: " + text);
+                  System.out.println("  LINK: " + link);
                }
             }
          }
@@ -143,10 +145,14 @@ public class MedScape {
                // TEXT
                String text = li.getElementsByClass("teaser").text();
 
+               // TODO NEW LINK
+               String link = li.getElementsByClass("title").attr("href");
+
                if (StringUtils.isNotBlank(image) && StringUtils.isNotBlank(title) && StringUtils.isNotBlank(text)) {
                   System.out.print(" IMAGE : " + image);
                   System.out.print("  TITLE : " + title);
                   System.out.println(" TEXT : " + text);
+                  System.out.println(" LINK  : " + link);
                }
             }
          }

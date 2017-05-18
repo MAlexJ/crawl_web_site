@@ -2,8 +2,6 @@ package com.malex;
 
 import com.malex.site.HealthCentral;
 import com.malex.site.MedScape;
-import com.malex.site.Ncbi;
-import com.malex.site.WebMd;
 
 import java.io.IOException;
 
@@ -19,7 +17,7 @@ public class Main {
       webSiteMedScape.getDrugsDiseases();
       webSiteMedScape.getNews();
 
-//      // WEB SITE: www.healthcentral.com
+      // WEB SITE: www.healthcentral.com
       HealthCentral healthCentral = new HealthCentral();
       healthCentral.getCatalog(HealthCentral.FAMILY_HEALTH_MENOPAUSE);
       healthCentral.getCatalog(HealthCentral.FAMILY_HEALTH_PROSTATE);
@@ -38,14 +36,14 @@ public class Main {
       healthCentral.getCatalog(HealthCentral.BODY_MIND_HIGH_DIABETES);
 
       healthCentral.getNews();
-
+//
       // WEB SITE: http://www.webmd.com
-      WebMd webMd = new WebMd();
-      webMd.getNews();
-
+//      WebMd webMd = new WebMd();
+//      webMd.getNews();
+//
       // WEB SITE: https://www.ncbi.nlm.nih.gov/
-      Ncbi ncbi = new Ncbi();
-      ncbi.getNews();
+//      Ncbi ncbi = new Ncbi();
+//      ncbi.getNews();
 
    }
 }
