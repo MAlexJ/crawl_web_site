@@ -1,4 +1,4 @@
-package com.malex.site;
+package com.malex.site.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
