@@ -56,9 +56,6 @@ public class Main {
       }
 
 
-      System.out.println((char) '–');
-      System.out.println( "\\u" + Integer.toHexString('–' | 0x10000).substring(1) );
-
 
    }
 }

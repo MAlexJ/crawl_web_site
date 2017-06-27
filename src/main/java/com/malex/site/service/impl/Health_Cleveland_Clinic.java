@@ -34,6 +34,9 @@ public class Health_Cleveland_Clinic extends WebTopic {
 	private static final String WELLNESS = "Wellness";
 	private static final String WOMENS_HEALTH = "Women’s Health";
 
+	// news
+	private static final String NEWS_RELEASES = "NEWS RELEASES";  // TODO <<<
+
 	/**
 	 * Topics
 	 */
@@ -41,16 +44,19 @@ public class Health_Cleveland_Clinic extends WebTopic {
 
 	static {
 		topics.put(CHILDREN_S_HEALTH, "childrens-health/");
-//		topics.put(FAMILY_MEDICINE, "family-medicine");
-//		topics.put(GENOMIC_MEDICINE, "geonomic-medicine");
-//		topics.put(MENS_HEALTH, "mens-health");
-//		topics.put(NEWS_INNOVATION, "news-and-innovation");
-//		topics.put(PREGNANCY_CHILDBIRTH, "pregnancy-childbirth");
-//		topics.put(SENIOR_HEALTH, "senior-health");
-//		topics.put(SEX_RELATIONSHIPS, "sex-relationships");
-//		topics.put(SLEEP, "sleep");
-//		topics.put(WELLNESS, "wellness");
-//		topics.put(WOMENS_HEALTH, "womens-health");
+		topics.put(FAMILY_MEDICINE, "family-medicine");
+		topics.put(GENOMIC_MEDICINE, "geonomic-medicine");
+		topics.put(MENS_HEALTH, "mens-health");
+		topics.put(NEWS_INNOVATION, "news-and-innovation");
+		topics.put(PREGNANCY_CHILDBIRTH, "pregnancy-childbirth");
+		topics.put(SENIOR_HEALTH, "senior-health");
+		topics.put(SEX_RELATIONSHIPS, "sex-relationships");
+		topics.put(SLEEP, "sleep");
+		topics.put(WELLNESS, "wellness");
+		topics.put(WOMENS_HEALTH, "womens-health");
+
+		// news
+		topics.put(NEWS_RELEASES, "https://newsroom.clevelandclinic.org/category/news-releases/");  // TODO <<<<
 	}
 
 	/**
@@ -76,8 +82,16 @@ public class Health_Cleveland_Clinic extends WebTopic {
 
 			try {
 
-				String pathToTopic = PATH_TO_TOPICS + entrie.getValue();
+				String pathToTopic;
 
+				// news or otherwise
+				if (entrie.getKey().equals(NEWS_RELEASES)) {
+					pathToTopic = entrie.getValue();
+				} else {
+					pathToTopic = PATH_TO_TOPICS + entrie.getValue();
+				}
+
+				// get DOM
 				Document doc = Jsoup.connect(pathToTopic).get();
 
 				// root
@@ -102,15 +116,15 @@ public class Health_Cleveland_Clinic extends WebTopic {
 					// check parameters
 					if (StringUtils.isNotBlank(text)
 							  && StringUtils.isNotBlank(description)
-							  && StringUtils.isNotBlank(image)
+							  && StringUtils.isNotBlank(link)
 							  && StringUtils.isNotBlank(image)) {
 
 						ResultCrawling res = new ResultCrawling();
 
-						text = text.replace("\u00A0","");
-						text = text.replace("’","'");
-						text = text.replace("—","-");
-						text = text.replace('\u2013','-');
+						text = text.replace("\u00A0", "");
+						text = text.replace("’", "'");
+						text = text.replace("—", "-");
+						text = text.replace('\u2013', '-');
 
 						res.setTitle(text);
 						res.setDescription(description);
@@ -121,16 +135,11 @@ public class Health_Cleveland_Clinic extends WebTopic {
 						result.add(res);
 					}
 
-					return result;
-
 				}
-
 
 			} catch (Exception ex) {
 				System.out.println("Exception crawling site: " + PATH_TO_TOPICS);
 			}
-
-
 
 		}
 
